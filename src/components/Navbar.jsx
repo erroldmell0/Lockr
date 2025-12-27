@@ -9,13 +9,17 @@ const Navbar = () => {
           Lockr
           <span className='text-green-500'>/&gt;</span>
         </div>
-        <ul>
+        {/* <ul>
           <li className='flex gap-4'>
             <a className='hover:font-bold' href='/'>Home</a>
             <a className='hover:font-bold' href='#'>About</a>
             <a className='hover:font-bold' href='#'>Contact</a>
           </li>
-        </ul>
+        </ul> */}
+        <button className='text-white bg-green-600 rounded-full flex justify-center items-center'>
+          <img className='invert h-10 py-1 px-1' src='/icons/github.svg' alt='github'/>
+          <span className='font-bold px-1'>GitHub</span>
+        </button>
       </div>
     </nav>
   )

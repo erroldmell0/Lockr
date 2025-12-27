@@ -7,7 +7,7 @@ const Manager = () => {
   const [form, setForm] = useState({site: "", username: "", password: ""})
   const [passwordArray, setPasswordArray] = useState([])
 
-  useEffect(() => {
+  useEffect(() => {``
     let passwords = localStorage.getItem("passwords");
     if(passwords) {
       setPasswordArray(JSON.parse(passwords))
@@ -64,33 +64,28 @@ const Manager = () => {
         </div>
 
         <div className='passwords text-center '>
-          <h2>Your Passwords</h2>
-          <table className="table-fixed w-full rounded-md overflow-hidden">
-            <thead className='bg-green-800 text-white'>
-              <tr>
-                <th className='py-2'>Song</th>
-                <th className='py-2'>Artist</th>
-                <th className='py-2'>Year</th>
-              </tr>
-            </thead>
-            <tbody className='bg-green-100'>
-              <tr>
-                <td className='min-w-32'>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                <td className='min-w-32'>Malcolm Lockyer</td>
-                <td className='min-w-32'>1961</td>
-              </tr>
-              <tr>
-                <td className='min-w-32'>Witchy Woman</td>
-                <td className='min-w-32'>The Eagles</td>
-                <td className='min-w-32'>1972</td>
-              </tr>
-              <tr>
-                <td className='min-w-32'>Shining Star</td>
-                <td className='min-w-32'>Earth, Wind, and Fire</td>
-                <td className='min-w-32'>1975</td>
-              </tr>
-            </tbody>
-          </table>
+          <h2 className='font-bold text-xl m-2'>Your Passwords</h2>
+          {passwordArray.length === 0 && <div> No passwords to show</div>}
+          {passwordArray.length != 0 &&
+            <table className="table-fixed w-full rounded-md overflow-hidden">
+              <thead className='bg-green-800 text-white'>
+                <tr>
+                  <th className='py-2'>Website</th>
+                  <th className='py-2'>Username</th>
+                  <th className='py-2'>Password</th>
+                </tr>
+              </thead>
+              <tbody className='bg-green-100'>
+                {passwordArray.map((item, index) => {
+                  return <tr key={index}>
+                    <td className='py-2 border border-white min-w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
+                    <td className='py-2 border border-white min-w-32'>{item.username}</td>
+                    <td className='py-2 border border-white min-w-32'>{item.password}</td>
+                  </tr>
+                })}
+              </tbody>
+            </table>
+          }
         </div>
 
       </div>
