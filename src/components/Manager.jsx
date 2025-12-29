@@ -1,6 +1,7 @@
 import React, { use, useEffect, useState } from 'react'
 import { useRef } from 'react'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manager = () => {
   const ref = useRef()
@@ -8,7 +9,7 @@ const Manager = () => {
   const [form, setForm] = useState({site: "", username: "", password: ""})
   const [passwordArray, setPasswordArray] = useState([])
 
-  useEffect(() => {``
+  useEffect(() => {
     let passwords = localStorage.getItem("passwords");
     if(passwords) {
       setPasswordArray(JSON.parse(passwords))
@@ -16,6 +17,17 @@ const Manager = () => {
   },[])
 
   const copyText = (text) => {
+    toast('Copied to Clipboard', {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
     navigator.clipboard.writeText(text)
   }
 
@@ -41,6 +53,17 @@ const Manager = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        closeOnClick={false}
+        pauseOnHover
+        draggable
+        theme="dark"
+        transition={Bounce}
+      />
+
       {/*bg ibelick */}
       <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(200%_250%_at_50%_10%,#fff_10%,#32cd32_120%)]"></div>
 
