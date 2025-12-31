@@ -1,7 +1,7 @@
-import React, { use, useEffect, useState } from 'react'
-import { useRef } from 'react'
+import React, { use, useEffect, useState, useRef} from 'react'
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { v4 as uuidv4 } from 'uuid';
 
 const Manager = () => {
   const ref = useRef()
@@ -42,9 +42,24 @@ const Manager = () => {
   }
 
   const savePassword = () => {
-    setPasswordArray([...passwordArray, form])
-    localStorage.setItem("passwords", JSON.stringify([...passwordArray, form])) // because it takes time for states to update
-    console.log([...passwordArray, form])
+    setPasswordArray([...passwordArray, {...form, id: uuidv4()}])
+    setForm({site: "", username: "", password: ""})
+    localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form, id: uuidv4()}])) // because it takes time for states to update
+    //console.log([...passwordArray, form])
+  }
+
+  const editPassword = (id) => {
+    setForm(passwordArray.filter(item=>item.id===id)[0])
+    setPasswordArray(passwordArray.filter(item=>item.id!==id))
+    console.log("password edited",id)
+  }
+
+  const deletePassword = (id) => {
+    if(confirm("Are you sure you want to delete this password?")) {
+      setPasswordArray(passwordArray.filter(item=>item.id!==id))
+      localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!==id)))
+      console.log("password deleted")
+    }
   }
 
   const handleChange = (e) => {
@@ -92,10 +107,11 @@ const Manager = () => {
               src="https://cdn.lordicon.com/efxgwrkc.json"
               trigger="hover">
             </lord-icon>
-            Add Password
+            Save Password
           </button>
         </div>
 
+        {/* Passwords Table */}
         <div className='passwords text-center '>
           <h2 className='font-bold text-xl m-2'>Your Passwords</h2>
           {passwordArray.length === 0 && <div> No passwords to show</div>}
@@ -106,6 +122,7 @@ const Manager = () => {
                   <th className='py-2'>Website</th>
                   <th className='py-2'>Username</th>
                   <th className='py-2'>Password</th>
+                  <th className='py-2'>Actions</th>
                 </tr>
               </thead>
               <tbody className='bg-green-100'>
@@ -143,6 +160,24 @@ const Manager = () => {
                             src="https://cdn.lordicon.com/zdfcfvwu.json"
                             trigger="hover"
                             style={{"width":"22px","height":"22px","padding":"2px"}}>
+                          </lord-icon>
+                        </div>
+                      </div>
+                    </td>
+                    <td className='py-2 border border-white min-w-32'>
+                      <div className='flex items-center justify-center gap-4'>
+                        <div className="cursor-pointer" onClick={()=>{editPassword(item.id)}}>
+                          <lord-icon
+                              src="https://cdn.lordicon.com/wwsllqpi.json"
+                              trigger="hover"
+                              style={{"width":"22px","height":"22px","padding":"2px"}}>
+                          </lord-icon>
+                        </div>
+                        <div className="cursor-pointer" onClick={()=>{deletePassword(item.id)}}>
+                          <lord-icon
+                              src="https://cdn.lordicon.com/xyfswyxf.json"
+                              trigger="hover"
+                              style={{"width":"22px","height":"22px","padding":"2px"}}>
                           </lord-icon>
                         </div>
                       </div>
