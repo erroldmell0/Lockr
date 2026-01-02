@@ -1,6 +1,7 @@
 const express = require('express')
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const dotenv = require('dotenv');
 dotenv.config()
 
@@ -16,6 +17,7 @@ const dbName = 'lockr';
 const app = express()
 const port = 3000
 app.use(bodyParser.json());
+app.use(cors());
 
 client.connect();
 
@@ -48,3 +50,6 @@ app.delete('/', async(req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+//node --watch server.js
+//sudo mongod --dbpath=/Users/erroldmello/data/db
